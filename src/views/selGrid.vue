@@ -92,7 +92,7 @@ export default defineComponent({
 
 .header {
   width: 100%;
-  height: 60px; /* 可以根据需要调整高度 */
+  height: 60px; 
   background: rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;

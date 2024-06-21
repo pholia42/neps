@@ -6,17 +6,21 @@
         <span class="header-text">历史反馈信息列表</span>
       </div>
     </header>
-	<div class="header-image">
-	  <img src="@/assets/list.jpg" alt="Background Image" />
-	</div>
+    <div class="header-image">
+      <img src="@/assets/list.jpg" alt="Background Image" />
+    </div>
     <div class="list-container">
       <el-table :data="feedbackList" style="width: 100%">
-        <el-table-column label="等级" prop="grade" align="center">
+        <el-table-column label="等级" prop="preGrade" align="center">
           <template #default="scope">
-            <span :class="'level level-' + scope.row.grade">{{ scope.row.grade }}</span>
+            <span :class="'level ' + mapGradeToClass(scope.row.preGrade)">{{ scope.row.preGrade }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="日期" prop="feedbackTime" align="center" />
+        <el-table-column label="日期" prop="feedbackTime" align="center">
+          <template #default="scope">
+            <span>{{ new Date(scope.row.feedbackTime).toLocaleString() }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="省份" prop="province" align="center" />
         <el-table-column label="城市" prop="city" align="center" />
       </el-table>
@@ -27,6 +31,7 @@
 <script setup>
 import { reactive, onMounted, inject } from 'vue';
 import axios from 'axios';
+import axiosInstance from '@/axios'; 
 import { useRouter } from 'vue-router';
 import { ElTable, ElTableColumn, ElIcon, ElMessage } from 'element-plus';
 import { ArrowLeft } from '@element-plus/icons-vue';
@@ -37,7 +42,7 @@ const router = useRouter();
 
 const fetchData = async () => {
   try {
-    const response = await axios.get('http://wftr4y.natappfree.cc/supervisor/queryPredictionHistory', {
+    const response = await axiosInstance.get('/supervisor/queryPredictionHistory', {
       params: { telId: user.telId },
     });
     if (response.data.success) {
@@ -48,6 +53,25 @@ const fetchData = async () => {
   } catch (error) {
     console.error('请求错误:', error);
     ElMessage.error('请求错误，请稍后重试');
+  }
+};
+
+const mapGradeToClass = (preGrade) => {
+  switch (preGrade) {
+    case '一级污染':
+      return 'level-一';
+    case '二级污染':
+      return 'level-二';
+    case '三级污染':
+      return 'level-三';
+    case '四级污染':
+      return 'level-四';
+    case '五级污染':
+      return 'level-五';
+    case '六级污染':
+      return 'level-六';
+    default:
+      return '';
   }
 };
 
@@ -113,7 +137,6 @@ onMounted(() => {
   height: auto;
 }
 
-
 .logout-icon {
   color: #333;
   cursor: pointer;
@@ -122,6 +145,8 @@ onMounted(() => {
 }
 
 .list-container {
+  height: 500px;
+  font-size: 14px; 
   width: 100%;
   max-width: 800px;
   background: rgba(255, 255, 255, 0.9);
@@ -129,7 +154,8 @@ onMounted(() => {
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  margin-top: 80px; /* 确保内容不会被固定的头部遮挡 */
+  margin-top: 80px; 
+  overflow-y: auto;
 }
 
 .el-table {
@@ -143,6 +169,7 @@ onMounted(() => {
   background-color: #f2edac;
   color: #333;
 }
+
 
 .level {
   display: inline-block;

@@ -58,6 +58,7 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import axios from 'axios';
+import axiosInstance from '@/axios'; 
 import { ElMessage, ElForm } from 'element-plus';
 import { useRouter, useRoute } from 'vue-router';
 
@@ -124,7 +125,7 @@ const submitForm = async () => {
 
   console.log('表单验证成功，准备发送请求');
   try {
-    const response = await axios.post('http://wftr4y.natappfree.cc/supervisor/addSupervisor', {
+    const response = await axiosInstance.post('/supervisor/addSupervisor', {
       telId: ruleForm.telId,
       password: ruleForm.password,
       realName: ruleForm.realName,

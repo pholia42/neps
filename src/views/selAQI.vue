@@ -68,7 +68,7 @@ import { defineComponent, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { ElMessage, ElForm, ElFormItem, ElInput, ElRadioGroup, ElRadioButton, ElButton, ElIcon } from 'element-plus';
 import { ArrowLeft } from '@element-plus/icons-vue';
-import http from '@/axios'; // 使用配置好的Axios实例
+import axiosInstance from '@/axios'; 
 
 export default defineComponent({
   name: 'SelectAQI',
@@ -113,7 +113,7 @@ export default defineComponent({
       console.log('用户ID:', telId);
 
       try {
-        const response = await http.post('http://wftr4y.natappfree.cc/supervisor/addPrediction', { // URL位置
+         const response = await axiosInstance.get('/supervisor/addPrediction', { // URL位置
           province: route.query.province,
           city: route.query.city,
           address: route.query.address,
