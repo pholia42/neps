@@ -4,7 +4,7 @@ import router from './router/index.js';
 
 // 创建axios实例
 const instance = axios.create({
-  baseURL: 'http://wftr4y.natappfree.cc/', // 你的API基础URL
+  baseURL: 'http://54qxv2.natappfree.cc/', // API基础URL
   timeout: 100000,
 });
 
@@ -25,8 +25,14 @@ instance.interceptors.response.use(response => {
 }, error => {
   if (error.response && error.response.status === 401) {
     localStorage.removeItem('token');
-    ElMessage.error('登录已过期');
-    router.push('/');
+    localStorage.removeItem('feedbackName');
+    localStorage.removeItem('telId');
+    ElMessage.error('登录已过期，请重新登录');
+    router.push('/login');
+  } else if (error.response && error.response.status === 403) {
+    ElMessage.error('没有权限进行此操作');
+  } else {
+    ElMessage.error('请求错误，请稍后重试');
   }
   return Promise.reject(error);
 });
