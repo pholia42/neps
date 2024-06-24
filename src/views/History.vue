@@ -30,7 +30,6 @@
 
 <script setup>
 import { reactive, onMounted, inject } from 'vue';
-import axios from 'axios';
 import axiosInstance from '@/axios'; 
 import { useRouter } from 'vue-router';
 import { ElTable, ElTableColumn, ElIcon, ElMessage } from 'element-plus';
@@ -169,7 +168,6 @@ onMounted(() => {
   background-color: #f2edac;
   color: #333;
 }
-
 
 .level {
   display: inline-block;

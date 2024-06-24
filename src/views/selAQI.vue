@@ -113,7 +113,7 @@ export default defineComponent({
       console.log('用户ID:', telId);
 
       try {
-         const response = await axiosInstance.get('/supervisor/addPrediction', { // URL位置
+        const response = await axiosInstance.post('/supervisor/addPrediction', {
           province: route.query.province,
           city: route.query.city,
           address: route.query.address,

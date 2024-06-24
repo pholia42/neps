@@ -35,7 +35,10 @@ export default defineComponent({
     ArrowLeft
   },
   setup() {
-    const user = inject('user');
+    const user = inject('user') || {
+      feedbackName: localStorage.getItem('feedbackName') || '',
+      telId: localStorage.getItem('telId') || ''
+    };
     const router = useRouter();
 
     const uploadData = () => {
@@ -48,6 +51,8 @@ export default defineComponent({
 
     const logout = () => {
       localStorage.removeItem('token');
+      localStorage.removeItem('feedbackName');
+      localStorage.removeItem('telId');
       ElMessage.success('已退出');
       router.push('/');
     };
@@ -138,3 +143,4 @@ h1 {
   }
 }
 </style>
+

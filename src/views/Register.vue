@@ -10,15 +10,12 @@
       :size="formSize"
       status-icon
     >
-      <!-- 手机号 -->
       <el-form-item label="手机号" prop="telId">
         <el-input v-model="ruleForm.telId" />
       </el-form-item>
-      <!-- 真实姓名 -->
       <el-form-item label="真实姓名" prop="realName">
         <el-input v-model="ruleForm.realName" />
       </el-form-item>
-      <!-- 生日 -->
       <el-form-item label="生日" required prop="birthday">
         <el-date-picker
           v-model="ruleForm.birthday"
@@ -30,26 +27,21 @@
           value-format="YYYY-MM-DD"
         />
       </el-form-item>
-      <!-- 性别 -->
       <el-form-item label="性别" prop="sex">
         <el-radio-group v-model="ruleForm.sex">
           <el-radio value="1">男</el-radio>
           <el-radio value="2">女</el-radio>
         </el-radio-group>
       </el-form-item>
-      <!-- 密码 -->
       <el-form-item label="密码" prop="password">
         <el-input type="password" v-model="ruleForm.password" />
       </el-form-item>
-      <!-- 重复密码 -->
       <el-form-item label="重复密码" prop="repassword">
         <el-input type="password" v-model="ruleForm.repassword" />
       </el-form-item>
-      
-      <!-- 表单操作按钮 -->
       <el-form-item>
-        <el-button type="primary" @click="submitForm" >注册</el-button>
-		<el-link type="primary" @click="resetForm">重置</el-link>
+        <el-button type="primary" @click="submitForm">注册</el-button>
+        <el-link type="primary" @click="resetForm">重置</el-link>
       </el-form-item>
     </el-form>
   </div>
@@ -57,11 +49,9 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
-import axios from 'axios';
-import axiosInstance from '@/axios'; 
+import axiosInstance from '@/axios';
 import { ElMessage, ElForm } from 'element-plus';
-import { useRouter, useRoute } from 'vue-router';
-
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
@@ -125,7 +115,7 @@ const submitForm = async () => {
 
   console.log('表单验证成功，准备发送请求');
   try {
-    const response = await axiosInstance.post('/supervisor/addSupervisor', {
+    const response = await axiosInstance.post('/register/supervisor', {
       telId: ruleForm.telId,
       password: ruleForm.password,
       realName: ruleForm.realName,
@@ -147,6 +137,12 @@ const submitForm = async () => {
   } catch (error) {
     console.error("请求失败: ", error);
     ElMessage.error('注册失败，请稍后重试');
+  }
+};
+
+const resetForm = () => {
+  if (ruleFormRef.value) {
+    ruleFormRef.value.resetFields();
   }
 };
 </script>

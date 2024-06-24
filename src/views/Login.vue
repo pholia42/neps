@@ -32,7 +32,7 @@
 <script setup>
 import { reactive, ref, inject } from 'vue';
 import { ElMessage, ElForm } from 'element-plus';
-import axios from '@/axios'; 
+import axios from '@/axios';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -49,29 +49,32 @@ const rules = reactive({
     { required: true, message: '请输入密码', trigger: 'blur' },
   ]
 });
-const loginForm = ref(null); 
+const loginForm = ref(null);
 
 const onSubmit = async () => {
   const isFormValid = await loginForm.value.validate();
   if (!isFormValid) return;
 
   try {
-    const response = await axios.get('/supervisor/login', {
+    const response = await axios.get('/login/supervisor', {
       params: {
         telId: form.telId,
         password: form.password
+      },
+      headers: {
+        token: process.env.VUE_APP_API_TOKEN
       }
     });
 
     if (response.status === 200) {
       if (response.data.success) {
-        const token = response.data.token; 
-        const feedbackName = response.data.data.realName; 
-        const telId = response.data.data.telId; 
+        const token = response.data.token;
+        const feedbackName = response.data.data.realName;
+        const telId = response.data.data.telId;
 
-        localStorage.setItem('token', token); 
-        localStorage.setItem('feedbackName', feedbackName); 
-        localStorage.setItem('telId', telId); 
+        localStorage.setItem('token', token);
+        localStorage.setItem('feedbackName', feedbackName);
+        localStorage.setItem('telId', telId);
 
         user.token = token;
         user.feedbackName = feedbackName;
