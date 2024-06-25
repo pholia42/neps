@@ -4,13 +4,14 @@ import router from './router/index.js';
 
 // 创建axios实例
 const instance = axios.create({
-  baseURL: 'http://54qxv2.natappfree.cc/', // API基础URL
+  baseURL: 'http://evdmkt.natappfree.cc/', // API基础URL
   timeout: 100000,
 });
 
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
+  console.log('请求前的 token:', token); // 调试用
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -28,7 +29,7 @@ instance.interceptors.response.use(response => {
     localStorage.removeItem('feedbackName');
     localStorage.removeItem('telId');
     ElMessage.error('登录已过期，请重新登录');
-    router.push('/login');
+    router.push('/');
   } else if (error.response && error.response.status === 403) {
     ElMessage.error('没有权限进行此操作');
   } else {
