@@ -29,21 +29,40 @@
 </template>
 
 <script setup>
-import { reactive, onMounted, inject } from 'vue';
+import { reactive, onMounted } from 'vue';
 import axiosInstance from '@/axios'; 
 import { useRouter } from 'vue-router';
 import { ElTable, ElTableColumn, ElIcon, ElMessage } from 'element-plus';
 import { ArrowLeft } from '@element-plus/icons-vue';
 
 const feedbackList = reactive([]); 
-const user = inject('user');
 const router = useRouter();
+
+const checkToken = () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    ElMessage.error('登录已过期，请重新登录');
+    router.push('/login');
+  }
+};
 
 const fetchData = async () => {
   try {
+    const token = localStorage.getItem('token');
+    const telId = localStorage.getItem('telId');
+    
+    console.log('请求中的 token:', token); // 调试用
+    console.log('请求中的 telId:', telId); // 调试用
+    
     const response = await axiosInstance.get('/supervisor/queryPredictionHistory', {
-      params: { telId: user.telId },
+      params: { telId: telId },
+      headers: {
+        token: `${token}`
+      }
     });
+
+    console.log('服务器响应:', response.data); // 调试用
+
     if (response.data.success) {
       feedbackList.push(...response.data.data);
     } else {
@@ -79,9 +98,11 @@ const goBack = () => {
 };
 
 onMounted(() => {
+  checkToken(); // 检查token
   fetchData();
 });
 </script>
+
 
 <style scoped>
 .feedback-list-container {

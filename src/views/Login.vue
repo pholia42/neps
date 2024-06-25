@@ -62,25 +62,35 @@ const onSubmit = async () => {
         password: form.password
       },
       headers: {
-        token: process.env.VUE_APP_API_TOKEN
+        'Authorization': `Bearer ${process.env.VUE_APP_API_TOKEN}`
       }
     });
 
     if (response.status === 200) {
       if (response.data.success) {
-        const token = response.data.token;
-        const feedbackName = response.data.data.realName;
-        const telId = response.data.data.telId;
+        const token = response.data.data.token;
+        const feedbackName = response.data.data.name;
+        const telId = response.data.data.id;
 
+        // 存储在localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('feedbackName', feedbackName);
         localStorage.setItem('telId', telId);
 
+        // 存储在全局user对象
         user.token = token;
         user.feedbackName = feedbackName;
         user.telId = telId;
 
+        // 登录成功提示
         ElMessage.success('登录成功');
+        
+        // 控制台输出登录成功后的全局变量
+        console.log('lg用户token:', user.token);
+        console.log('lg用户姓名:', user.feedbackName);
+        console.log('login用户手机号:', user.telId);
+
+        // 跳转到首页
         router.push('/home');
       } else {
         ElMessage.error(response.data.errorMsg || '账号或密码不正确');

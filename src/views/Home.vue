@@ -40,6 +40,10 @@ export default defineComponent({
       telId: localStorage.getItem('telId') || ''
     };
     const router = useRouter();
+	
+	console.log('home用户token:', user.token);
+	console.log('home用户姓名:', user.feedbackName);
+	console.log('home用户手机号:', user.telId);
 
     const uploadData = () => {
       router.push('/selgrid');

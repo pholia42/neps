@@ -108,9 +108,11 @@ export default defineComponent({
 
       const feedbackName = localStorage.getItem('feedbackName');
       const telId = localStorage.getItem('telId');
+      const token = localStorage.getItem('token');
 
       console.log('用户名称:', feedbackName);
       console.log('用户ID:', telId);
+      console.log('请求中的 token:', token);
 
       try {
         const response = await axiosInstance.post('/supervisor/addPrediction', {
@@ -120,7 +122,11 @@ export default defineComponent({
           preGrade: form.aqiLevel,
           description: form.feedback,
           feedbackName: feedbackName,
-          telId: telId 
+          telId: telId
+        }, {
+          headers: {
+           token : `${token}`
+          }
         });
 
         console.log('服务器响应:', response.data);
@@ -144,6 +150,7 @@ export default defineComponent({
     };
   }
 });
+
 </script>
 
 <style scoped>
