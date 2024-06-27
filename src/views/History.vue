@@ -13,7 +13,9 @@
       <el-table :data="feedbackList" style="width: 100%">
         <el-table-column label="等级" prop="preGrade" align="center">
           <template #default="scope">
-            <span :class="'level ' + mapGradeToClass(scope.row.preGrade)">{{ scope.row.preGrade }}</span>
+            <span :class="'level ' + mapGradeToClass(scope.row.preGrade)">
+              {{ getGradeNumber(scope.row.preGrade) }}
+            </span>
           </template>
         </el-table-column>
         <el-table-column label="日期" prop="feedbackTime" align="center">
@@ -51,9 +53,6 @@ const fetchData = async () => {
     const token = localStorage.getItem('token');
     const telId = localStorage.getItem('telId');
     
-    console.log('请求中的 token:', token); // 调试用
-    console.log('请求中的 telId:', telId); // 调试用
-    
     const response = await axiosInstance.get('/supervisor/queryPredictionHistory', {
       params: { telId: telId },
       headers: {
@@ -76,20 +75,25 @@ const fetchData = async () => {
 
 const mapGradeToClass = (preGrade) => {
   switch (preGrade) {
-    case '一级污染':
-      return 'level-一';
-    case '二级污染':
-      return 'level-二';
-    case '三级污染':
-      return 'level-三';
-    case '四级污染':
-      return 'level-四';
-    case '五级污染':
-      return 'level-五';
-    case '六级污染':
-      return 'level-六';
-    default:
-      return '';
+    case '一级污染': return 'level-一';
+    case '二级污染': return 'level-二';
+    case '三级污染': return 'level-三';
+    case '四级污染': return 'level-四';
+    case '五级污染': return 'level-五';
+    case '六级污染': return 'level-六';
+    default: return '';
+  }
+};
+
+const getGradeNumber = (preGrade) => {
+  switch (preGrade) {
+    case '一级污染': return '一';
+    case '二级污染': return '二';
+    case '三级污染': return '三';
+    case '四级污染': return '四';
+    case '五级污染': return '五';
+    case '六级污染': return '六';
+    default: return '';
   }
 };
 
@@ -98,7 +102,7 @@ const goBack = () => {
 };
 
 onMounted(() => {
-  checkToken(); // 检查token
+  checkToken();
   fetchData();
 });
 </script>
@@ -118,7 +122,7 @@ onMounted(() => {
 
 .header {
   width: 100%;
-  height: 60px; /* 可以根据需要调整高度 */
+  /*height: 60px;*/
   background: rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;

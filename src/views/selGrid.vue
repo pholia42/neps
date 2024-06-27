@@ -53,9 +53,6 @@ export default defineComponent({
         alert('请选择省市并填写详细地址');
         return;
       }
-      console.log('选择的省:', selectedProvince.value);
-      console.log('选择的市:', selectedCity.value);
-      console.log('填写的详细地址:', detailedAddress.value);
 
       router.push({
         path: '/selaqi',

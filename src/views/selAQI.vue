@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { ElMessage, ElForm, ElFormItem, ElInput, ElRadioGroup, ElRadioButton, ElButton, ElIcon } from 'element-plus';
 import { ArrowLeft } from '@element-plus/icons-vue';
@@ -93,6 +93,18 @@ export default defineComponent({
     const goBack = () => {
       router.push('/selgrid');
     };
+	
+    const preGrade = computed(() => {
+      switch (form.aqiLevel) {
+        case '1': return '一级污染';
+        case '2': return '二级污染';
+        case '3': return '三级污染';
+        case '4': return '四级污染';
+        case '5': return '五级污染';
+        case '6': return '六级污染';
+        default: return '';
+      }
+    });
 
     const submitData = async () => {
       if (!form.aqiLevel || !form.feedback) {
@@ -103,7 +115,7 @@ export default defineComponent({
       console.log('提交的省:', route.query.province);
       console.log('提交的市:', route.query.city);
       console.log('提交的详细地址:', route.query.address);
-      console.log('预测空气质量等级:', form.aqiLevel);
+      console.log('预测空气质量等级:', preGrade.value);
       console.log('反馈信息:', form.feedback);
 
       const feedbackName = localStorage.getItem('feedbackName');
@@ -119,7 +131,7 @@ export default defineComponent({
           province: route.query.province,
           city: route.query.city,
           address: route.query.address,
-          preGrade: form.aqiLevel,
+          preGrade: preGrade.value,
           description: form.feedback,
           feedbackName: feedbackName,
           telId: telId
@@ -133,6 +145,15 @@ export default defineComponent({
 
         if (response.data.success) {
           ElMessage.success('提交成功');
+		  
+		    const token = localStorage.getItem('token');
+            const feedbackName = localStorage.getItem('feedbackName');
+			const telId = localStorage.getItem('telId');
+            localStorage.clear();
+            localStorage.setItem('token', token);
+            localStorage.setItem('feedbackName', feedbackName);
+            localStorage.setItem('telId', telId);
+		  
           router.push('/home');
         } else {
           ElMessage.error(response.data.errorMsg || '提交失败');
@@ -142,15 +163,15 @@ export default defineComponent({
         console.error('提交错误:', error);
       }
     };
-
+	
     return {
       form,
       goBack,
-      submitData
+      submitData,
+      preGrade
     };
   }
 });
-
 </script>
 
 <style scoped>
@@ -167,7 +188,7 @@ export default defineComponent({
 
 .header {
   width: 100%;
-  height: 60px; /* 可以根据需要调整高度 */
+  height: 60px;
   background: rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
@@ -192,6 +213,20 @@ export default defineComponent({
   font-weight: bold;
 }
 
+.header-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+  margin-bottom: 20px;
+}
+
+.header-image img {
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+}
+
 .logout-icon {
   color: #333;
   cursor: pointer;
@@ -201,19 +236,18 @@ export default defineComponent({
 
 .form-container {
   width: 100%;
-  max-width: 400px;
-  background: white;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 80px;
-  text-align: center;  
 }
 
 .aqi-table {
   width: 100%;
-  border-collapse: collapse;
   margin-bottom: 20px;
+  border-collapse: collapse;
 }
 
 .aqi-table th, .aqi-table td {
@@ -226,28 +260,6 @@ export default defineComponent({
   background-color: #f2f2f2;
 }
 
-.el-form-item {
-  margin-bottom: 20px;
-}
-
-.el-radio-button__inner {
-  background-color: #e0f7fa;
-  border: 1px solid #009688;
-  color: #333;
-}
-
-.el-radio-button__inner:hover {
-  background-color: #009688;
-  border-color: #009688;
-  color: white;
-}
-
-.el-radio-button.is-active .el-radio-button__inner {
-  background-color: #009688;
-  border-color: #009688;
-  color: white;
-}
-
 .level {
   display: inline-block;
   width: 24px;
@@ -255,33 +267,15 @@ export default defineComponent({
   text-align: center;
   border-radius: 50%;
   line-height: 24px;
+  color: white;
 }
 
-.level-1 { background-color: #00e400; color: white; }
-.level-2 { background-color: #ff0; color: white; }
-.level-3 { background-color: #ff7e00; color: white; }
-.level-4 { background-color: #ff0000; color: white; }
-.level-5 { background-color: #99004c; color: white; }
-.level-6 { background-color: #7e0023; color: white; }
-
-.el-input__inner {
-  border-radius: 5px;
-}
-
-.el-button {
-  width: 100%;
-  border-radius: 5px;
-}
-
-.el-button--primary {
-  background-color: #009688;
-  border-color: #009688;
-}
-
-.el-button--primary:hover {
-  background-color: #00796b;
-  border-color: #00796b;
-}
+.level-1 { background-color: #00e400; }
+.level-2 { background-color: #ffff00; }
+.level-3 { background-color: #ff7e00; }
+.level-4 { background-color: #ff0000; }
+.level-5 { background-color: #99004c; }
+.level-6 { background-color: #7e0023; }
 
 .el-message {
   position: fixed;

@@ -41,10 +41,6 @@ export default defineComponent({
     };
     const router = useRouter();
 	
-	console.log('home用户token:', user.token);
-	console.log('home用户姓名:', user.feedbackName);
-	console.log('home用户手机号:', user.telId);
-
     const uploadData = () => {
       router.push('/selgrid');
     };
@@ -54,9 +50,7 @@ export default defineComponent({
     };
 
     const logout = () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('feedbackName');
-      localStorage.removeItem('telId');
+      localStorage.clear();
       ElMessage.success('已退出');
       router.push('/');
     };

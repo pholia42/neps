@@ -44,9 +44,11 @@ const form = reactive({
 const rules = reactive({
   telId: [
     { required: true, message: '请输入手机号', trigger: 'blur' },
+	//{ min: 11, max: 11, message: '手机号长度必须为11位', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
+	// { min: 6, max: 20, message: '密码长度必须在6-20位之间', trigger: 'blur' }
   ]
 });
 const loginForm = ref(null);
@@ -77,20 +79,12 @@ const onSubmit = async () => {
         localStorage.setItem('feedbackName', feedbackName);
         localStorage.setItem('telId', telId);
 
-        // 存储在全局user对象
         user.token = token;
         user.feedbackName = feedbackName;
         user.telId = telId;
 
-        // 登录成功提示
         ElMessage.success('登录成功');
-        
-        // 控制台输出登录成功后的全局变量
-        console.log('lg用户token:', user.token);
-        console.log('lg用户姓名:', user.feedbackName);
-        console.log('login用户手机号:', user.telId);
 
-        // 跳转到首页
         router.push('/home');
       } else {
         ElMessage.error(response.data.errorMsg || '账号或密码不正确');
