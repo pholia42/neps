@@ -126,9 +126,7 @@ export default defineComponent({
   max-width: 400px;
   margin-top: 80px; /* 确保内容不会被固定的头部遮挡 */
   padding: 20px;
-  background: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
@@ -138,7 +136,10 @@ export default defineComponent({
 
 .el-select,
 .el-input__inner {
-  border-radius: 5px;
+  width: 100%; /* 使用百分比而不是固定像素，确保在不同设备上的响应式表现 */
+  padding: 10px 15px; /* 增加内边距使输入更舒适 */
+  font-size: 16px; /* 增加字体大小提高可读性 */
+  border-radius: 5px; /* 维持圆角样式 */
 }
 
 .el-button {

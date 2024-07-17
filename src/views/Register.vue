@@ -1,5 +1,9 @@
 <template>
   <div class="register">
+	 <div class="title-container">
+	  <h2 class="register-title">东软环保公众监督平台</h2>
+	  <h3 class="register-subtitle">———— 公众监督员端注册 ————</h3>
+	</div> 
     <el-form
       ref="ruleFormRef"
       style="max-width: 96%"
@@ -69,7 +73,7 @@ const ruleForm = reactive({
 const rules = reactive({
   telId: [
     { required: true, message: '请输入手机号', trigger: 'blur' },
-    //{ pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
+    { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
   ],
   realName: [
     { required: true, message: '请输入真实姓名', trigger: 'blur' }
@@ -158,6 +162,24 @@ const resetForm = () => {
   padding: 20px;
   min-height: 100vh;
   box-sizing: border-box;
+}
+
+.title-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.register-title {
+  font-size: 28px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.register-subtitle {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 20px;
 }
 
 .el-form {

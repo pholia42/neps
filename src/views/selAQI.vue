@@ -42,7 +42,7 @@
         </tbody>
       </table>
       <el-form :model="form" ref="aqiForm" label-width="120px" status-icon>
-        <el-form-item label="预测空气质量等级" :rules="[ { required: true, message: '请选择一个等级', trigger: 'change' } ]">
+        <el-form-item label="空气质量等级" :rules="[ { required: true, message: '请选择一个等级', trigger: 'change' } ]">
           <el-radio-group v-model="form.aqiLevel">
             <el-radio-button label="1"><span class="level level-1">一</span></el-radio-button>
             <el-radio-button label="2"><span class="level level-2">二</span></el-radio-button>

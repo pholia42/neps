@@ -9,12 +9,12 @@
     <el-main>
       <div class="content-container">
         <h1>欢迎,公众监督员{{ user.feedbackName }}</h1>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-button type="primary" plain @click="uploadData">上传数据功能</el-button>
+        <el-row :gutter="40"> <!-- 增加间距 -->
+          <el-col :span="24"> <!-- 调整span使卡片占满整行 -->
+            <el-card class="card" type="primary" plain @click="uploadData">上传数据功能</el-card>
           </el-col>
-          <el-col :span="12">
-            <el-button type="primary" plain @click="viewHistory">查看历史记录功能</el-button>
+          <el-col :span="24"> <!-- 调整span使卡片占满整行 -->
+            <el-card class="card" type="primary" plain @click="viewHistory">查看历史记录功能</el-card>
           </el-col>
         </el-row>
       </div>
@@ -27,7 +27,7 @@ import { defineComponent, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { ArrowLeft } from '@element-plus/icons-vue';
-import http from '@/axios'; 
+import http from '@/axios';
 
 export default defineComponent({
   name: 'Home',
@@ -40,7 +40,7 @@ export default defineComponent({
       telId: localStorage.getItem('telId') || ''
     };
     const router = useRouter();
-	
+
     const uploadData = () => {
       router.push('/selgrid');
     };
@@ -79,7 +79,7 @@ export default defineComponent({
 
 .full-header {
   width: 100%;
-  height: 60px; /* 可以根据需要调整高度 */
+  height: 60px;
   background: rgba(255, 255, 255, 0.8);
   display: flex;
   justify-content: center;
@@ -116,7 +116,7 @@ export default defineComponent({
   width: 100%;
   max-width: 800px;
   text-align: center;
-  margin-top: 80px; /* 确保内容不会被固定的头部遮挡 */
+  margin-top: 80px; /* 防止内容被头部遮挡 */
 }
 
 h1 {
@@ -125,15 +125,25 @@ h1 {
 }
 
 .el-row {
-  margin-top: 20px;
+  margin-top: 40px; /* 增加顶部边距 */
 }
 
-.el-button {
-  width: 100%;
-  font-size: 16px;
+.el-col {
+  margin-bottom: 40px; /* 每个卡片下方增加20px的间隔 */
 }
 
-/* 添加媒体查询以确保布局在不同设备上合理 */
+.card {
+  border-radius: 10px;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
+}
+
 @media (max-width: 768px) {
   .el-col {
     flex: 1 1 100%;
@@ -141,4 +151,3 @@ h1 {
   }
 }
 </style>
-

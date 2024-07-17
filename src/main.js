@@ -20,18 +20,13 @@ app.provide('user', user);
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
-
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!token && to.name !== 'Login' && to.name !== 'Register') {
-      ElMessage.warning('登录已过期，请重新登录');
-      next({ name: 'Login' });
-    } else {
-      next(); 
-    }
+  // 无论访问任何页面都检查是否有token
+  if (!token && to.name !== 'Login' && to.name !== 'Register') {
+    ElMessage.warning('登录已过期，请重新登录');
+    next({ name: 'Login' });
   } else {
-    next(); 
+    next();
   }
 });
-
 
 app.use(store).use(router).use(ElementPlus).mount('#app');

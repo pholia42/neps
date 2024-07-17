@@ -6,9 +6,9 @@
         <span class="header-text">历史反馈信息列表</span>
       </div>
     </header>
-    <div class="header-image">
+<!--    <div class="header-image">
       <img src="@/assets/list.jpg" alt="Background Image" />
-    </div>
+    </div> -->
     <div class="list-container">
       <el-table :data="feedbackList" style="width: 100%">
         <el-table-column label="等级" prop="preGrade" align="center">
@@ -122,9 +122,10 @@ onMounted(() => {
 
 .header {
   width: 100%;
-  /*height: 60px;*/
+  height: 60px; /* 可以根据需要调整高度 */
   background: rgba(255, 255, 255, 0.8);
   display: flex;
+  justify-content: center;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: fixed;
@@ -173,17 +174,14 @@ onMounted(() => {
   font-size: 14px; 
   width: 100%;
   max-width: 800px;
-  background: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   margin-top: 80px; 
   overflow-y: auto;
 }
 
 .el-table {
-  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
